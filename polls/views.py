@@ -1,8 +1,12 @@
-import imp
+
+from django.urls import reverse
+from typing import List
 from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponse,HttpRequest
+from django.http import HttpResponse,HttpRequest,HttpResponseRedirect
 from django.utils import timezone #para la hora
+from django.utils.datastructures import MultiValueDictKeyError
 from polls.models import Question,Choice #importar modelos
+from django.db.models.query import QuerySet
 
 # def index(request):
 #     # print(Question.objects.all())
@@ -29,20 +33,37 @@ def index(request:HttpRequest):
 
 
 def detail(request: HttpRequest, question_id: int):
-    question = get_object_or_404(Question, pk=question_id)
-    choices = question.choice_set.all()
-    print(choices)
+    question:Question = get_object_or_404(Question, pk=question_id)
+    choices:List[Choice] = question.choice_set.all()
     return render(request, 'polls/detail.html', {
         'question': question,
         "choices":choices
     })
 
 
-def result(request:HttpRequest):
-    lates_question_list = Question.objects.all()
-    return render(request,"polls/index.html",{"lates_question_list":lates_question_list})
+def result(request:HttpRequest, question_id:int):
+    question:Question = get_object_or_404(Question, pk=question_id)
+    choices:List[Choice] = question.choice_set.all()
+    return render (request, 'polls/results.html', {
+        'question': question,
+        "choices":choices
+    })
 
-
+#Post
 def vote(request:HttpRequest):
-    lates_question_list = Question.objects.all()
-    return render(request,"polls/index.html",{"lates_question_list":lates_question_list})
+    question_id:int = request.POST['question_id']
+    choise_id:int
+    question:Question = get_object_or_404(Question, pk=question_id)
+    try:
+        choise_id = request.POST['choice']
+        selected_choices:Choice = question.choice_set.get(pk = choise_id)
+
+    except(KeyError,Choice.DoesNotExist,MultiValueDictKeyError):
+        return render(request,"polls/detail.html",{
+            question:question,
+            'error_message':"no elegiste una respuesta"
+        })
+    else:
+        selected_choices.votes +=1
+        selected_choices.save()
+        return HttpResponseRedirect(reverse("polls:result",args = (question_id)))

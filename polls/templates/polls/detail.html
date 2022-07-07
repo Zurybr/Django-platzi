@@ -1,5 +1,26 @@
+<form action="{% url 'polls:vote' %}" method = 'post'>
+{% csrf_token %} {% comment %} cross site request forgery{% endcomment %}
+<fieldset>
+    <legend><h1>{{question.question_text}}</h1></legend>
+    {% if error_message %}
+        <p><strong>{{error_message}}</strong></p>
+    {% endif %}
+    {% for choice in choices %}
+    <input 
+        type="radio" 
+        name= 'choice' 
+        id = "choice{{ forloop.counter }}"
+        value = {{choice.id}} />    
+    <label for="choice{{ forloop.counter }}"> {{choice.choice_text}}</label>
+    <br />
+    {% endfor %}
+    <input type="hidden" name = "question_id" value = {{question.id}} >
+</fieldset>
+<input type="submit" value="send">
+</form>
 
-<h1>{{question.question_text}}</h1>
+
+{% comment %} <h1>{{question.question_text}}</h1>
 <ul>
     {% for choice in choices %}
         <li>{{choice.choice_text}}</li>
@@ -10,4 +31,4 @@
     {% for choice in question.choice_set.all %}
         <li>{{choice.choice_text}}</li>
     {% endfor %}
-</ul>
+</ul> {% endcomment %}

@@ -10,5 +10,5 @@ urlpatterns = [
     # 'polls/result/5'
     path('result/<int:question_id>',result,name='result'),
     # 'polls/vote/5'
-    path('vote/<int:question_id>',vote,name='vote'),
+    path('vote/',vote,name='vote'),
 ]
