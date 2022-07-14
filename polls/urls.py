@@ -1,12 +1,14 @@
 from django.urls import  path
-from .views import index,detail,result,vote
+from .views import IndexView,DetailView,result,vote
 
 app_name = 'polls'
 urlpatterns = [
-    # 'polls/'
-    path('',index,name='index'),
-    # 'polls/5'
-    path('<int:question_id>',detail,name='detail'),
+    #ex: 'polls/'
+    #path('',iindex,name='index'),
+    path('',IndexView.as_view(),name='index'),
+    #ex: 'polls/5'
+    #path('<int:question_id>',detail,name='detail'),
+    path('<int:pk>',DetailView.as_view(),name='detail'), #SI LA VISTA ES GENERIC DEBE DE LLEVAR PK 
     # 'polls/result/5'
     path('result/<int:question_id>',result,name='result'),
     # 'polls/vote/5'
