@@ -6,6 +6,12 @@
     {% endfor %}
 </ul>
 {% endif %} {% endcomment %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+
 {% if all_questions %}
     <ul>
         {% for question in all_questions %}
