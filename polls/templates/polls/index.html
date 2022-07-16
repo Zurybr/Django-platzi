@@ -1,3 +1,4 @@
+{% extends './layout.html' %}
 {% comment %} {% if object_list %}
 <ul>
     {% for question in object_list %}
@@ -6,19 +7,17 @@
     {% endfor %}
 </ul>
 {% endif %} {% endcomment %}
-{% load static %}
+{% block title  %}Index {% endblock  %}
 
-
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
-
-
-{% if all_questions %}
-    <ul>
-        {% for question in all_questions %}
-        <li><a href="/polls/{{question.id}}">{{question.question_text}} <---- podria no funcionar</a></li>
-        <li><a href=" {% url  'polls:detail'  question.id  %} ">{{question.question_text}}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+{% block body  %}
+    {% if all_questions %}
+        <ul>
+            {% for question in all_questions %}
+                <li><a href="/polls/{{question.id}}">{{question.question_text}} <---- podria no funcionar</a></li>
+                <li><a href=" {% url  'polls:detail'  question.id  %} ">{{question.question_text}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock  %}

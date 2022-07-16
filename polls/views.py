@@ -73,9 +73,9 @@ def vote(request:HttpRequest):
 class IndexView(generic.ListView):
     template_name= "polls/index.html"
     context_object_name = 'all_questions'
-    
-    def get_queryset(self):
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+    queryset= Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5] # se puede usar la funcion de abajo, o este atributo
+    # def get_queryset(self):
+    #     return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 class DetailView(generic.DetailView):
     model = Question
