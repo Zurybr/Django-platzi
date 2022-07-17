@@ -1,0 +1,30 @@
+
+
+# with open("eliminar.txt", 'r+') as f:
+#     f.truncate(0) # elimina todo hasta el byte 0 
+# file = open("eliminar.txt", "w")
+
+# n = 100#int(input("How many inserts do you want to make: "))
+# for i in range(1,n+1):
+#     text = f"""
+#     INSERT INTO public.users(
+#     user_id, first_name, last_name, email, password, date_created)
+#     VALUES ({i}, 'FIrst Name {i}', 'Last Name {i}', 'email{i}', '{i}', NOW());
+#     """
+#     file.write(text)
+
+# file.close()
+# with open("eliminar.txt", 'r+') as f:
+#     f.seek(0, os.SEEK_END)
+#     print('File Size is', f.tell(), 'bytes')
+# print('All Done!')
+
+
+
+x = {1,2,3,4,5}
+y=(1,2,3,4,5,)
+x.add(5)
+x.add(6)
+print(x)
+print (type(x))
+print (type(y))

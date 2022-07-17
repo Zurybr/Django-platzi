@@ -29,6 +29,7 @@ from django.db.models.query import QuerySet
 
 def index(request:HttpRequest):
     lates_question_list = Question.objects.all()
+    algo = Question.objects.all()
     return render(request,"polls/index.html",{"lates_question_list":lates_question_list})
 
 
@@ -67,3 +68,13 @@ def vote(request:HttpRequest):
         selected_choices.votes +=1
         selected_choices.save()
         return HttpResponseRedirect(reverse("polls:result",args = (question_id)))
+
+def prueba(request:HttpRequest, question_id:int):
+    algo:Question = Question.objects.filter(pub_date__year=2006)
+    # Question.objects
+    choices:List[Choice] = question.choice_set.all()
+    return render (request, 'polls/results.html', {
+        'question': question,
+        "choices":choices
+    })
+
